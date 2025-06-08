@@ -149,7 +149,6 @@ def clicar_sim():
         aviso.pack(expand=True, pady=(10, 50))
 
 def ajustar_tamanho_botoes():
-    """Ajusta o tamanho dos botões baseado no tamanho da janela"""
     try:
         largura = janela.winfo_width()
         altura = janela.winfo_height()
@@ -189,10 +188,12 @@ def ajustar_tamanho_botoes():
         
     except Exception as e:
         pass
+#PARTE JADSON A BAIXO 
 def on_enter_nao(event):
     """Quando o mouse entra na área do botão NÃO"""
     botao_nao.configure(bg="#DC143C", fg="white")
- mover_botao_nao()
+    # Mover imediatamente quando o mouse entra na área do botão
+    mover_botao_nao()
 
 def on_leave_nao(event):
     """Quando o mouse sai da área do botão NÃO"""
@@ -205,11 +206,12 @@ def on_enter_sim(event):
 def on_leave_sim(event):
     """Quando o mouse sai da área do botão SIM"""
     botao_sim.configure(bg="#26C226", fg="white")
-janela = tk.Tk()
+    
+janela = Tk.Tk()
 janela.title("💕 Para Minha Namorada 💕")
 janela.geometry("600x500")
-janela.configure(bg="#FFB6C1")  # FUNDO ROSA CLARO
-janela.resizable(True, True)  # Permitir redimensionamento
+janela.configure(bg="#FFB6C1") 
+janela.resizable(True, True) 
 
 def toggle_fullscreen(event=None):
     janela.attributes('-fullscreen', not janela.attributes('-fullscreen'))
@@ -218,119 +220,32 @@ def toggle_fullscreen(event=None):
 def exit_fullscreen(event=None):
     janela.attributes('-fullscreen', False)
     janela.after(100, ajustar_tamanho_botoes)
+
+
 janela.bind('<F11>', toggle_fullscreen)
 janela.bind('<Escape>', exit_fullscreen)
+
+
 janela.bind('<Motion>', verificar_proximidade_mouse)
+
+
 frame_principal = tk.Frame(janela, bg="#FFB6C1")
 frame_principal.pack(expand=True, fill="both", padx=20, pady=20)
+
+
 pergunta = tk.Label(
     frame_principal, 
     text="VOCÊ ME AMA?", 
     font=("Comic Sans MS", 24, "bold"),
-    fg="#FA8BC2",  # ROSA CLARO para o texto
-    bg="#FFB6C1"   # Fundo rosa claro
-)
-pergunta.pack(pady=(40, 60), expand=True)
-frame_botoes = tk.Frame(frame_principal, bg="#FFB6C1")
-frame_botoes.pack(expand=True)
-botao_sim = tk.Button(
-    frame_botoes, 
-    text="SIM\n💕", 
-    font=("Comic Sans MS", 14, "bold"),
-    bg="#26C226",
-    fg="white",
-    command=clicar_sim,
-    cursor="hand2",
-    relief="solid",
-    bd=3,
-    width=7,
-    height=3,
-    highlightthickness=0,
-    borderwidth=2
-)
-botao_sim.pack(side="left", padx=50, expand=True)
-botao_nao = tk.Button(
-    janela, 
-    text="NÃO\n😢", 
-    font=("Comic Sans MS", 14, "bold"),
-    bg="#E70F2F",
-    fg="white",
-    command=mover_botao_nao,  # Ainda permite clique manual
-    cursor="hand2",
-    relief="solid",
-    bd=3,
-    width=7,
-    height=3,
-    highlightthickness=0,
-    borderwidth=2
-)
-janela.update_idletasks()
-botao_nao.place(x=400, y=300)
-botao_sim.bind("<Enter>", on_enter_sim)
-botao_sim.bind("<Leave>", on_leave_sim)
-botao_nao.bind("<Enter>", on_enter_nao)  # Move quando mouse entra
-botao_nao.bind("<Leave>", on_leave_nao)
-def on_configure(event):
-    if event.widget == janela:
-        ajustar_tamanho_botoes()
-        largura = janela.winfo_width()
-        altura = janela.winfo_height()
-        
-        try:
-            x_atual = botao_nao.winfo_x()
-            y_atual = botao_nao.winfo_y()
-            if x_atual > largura - 120 or y_atual > altura - 80 or x_atual < 0 or y_atual < 0:
-                novo_x = min(max(50, largura - 200), largura // 2)
-                novo_y = min(max(50, altura - 150), altura // 2)
-                botao_nao.place(x=novo_x, y=novo_y)
-        except:
-            pass
-janela.bind("<Configure>", on_configure)
-def configuracao_inicial():
-    try:
-        ajustar_tamanho_botoes()
-        botao_sim.configure(relief="solid", bd=3)
-        botao_nao.configure(relief="solid", bd=3)
-    except:
-        pass
-janela.after(200, configuracao_inicial)
-janela.after(1000, lambda: janela.title("💕 Para Minha Namorada 💕 (F11 = Tela Cheia)"))
-janela.mainloop()
-# Permitir tela cheia com F11
-def toggle_fullscreen(event=None):
-    janela.attributes('-fullscreen', not janela.attributes('-fullscreen'))
-    janela.after(100, ajustar_tamanho_botoes)
-
-def exit_fullscreen(event=None):
-    janela.attributes('-fullscreen', False)
-    janela.after(100, ajustar_tamanho_botoes)
-
-# Vincular teclas para tela cheia
-janela.bind('<F11>', toggle_fullscreen)
-janela.bind('<Escape>', exit_fullscreen)
-
-# IMPORTANTE: Vincular movimento do mouse para detecção de proximidade
-janela.bind('<Motion>', verificar_proximidade_mouse)
-
-# Frame principal para centralizar conteúdo
-frame_principal = tk.Frame(janela, bg="#FFB6C1")
-frame_principal.pack(expand=True, fill="both", padx=20, pady=20)
-
-# Pergunta com fonte mais bonita e COR ROSA CLARO
-pergunta = tk.Label(
-    frame_principal, 
-    text="VOCÊ ME AMA?", 
-    font=("Comic Sans MS", 24, "bold"),
-    fg="#FA8BC2",  # ROSA CLARO para o texto
-    bg="#FFB6C1"   # Fundo rosa claro
+    fg="#FA8BC2", 
 )
 pergunta.pack(pady=(40, 60), expand=True)
 
-# Frame para centralizar os botões horizontalmente
+
 frame_botoes = tk.Frame(frame_principal, bg="#FFB6C1")
 frame_botoes.pack(expand=True)
 
-# Botão 'Sim' - Responsivo
+
 botao_sim = tk.Button(
     frame_botoes, 
     text="SIM\n💕", 
@@ -348,14 +263,14 @@ botao_sim = tk.Button(
 )
 botao_sim.pack(side="left", padx=50, expand=True)
 
-# Botão 'Não' - Responsivo e evasivo
+
 botao_nao = tk.Button(
     janela, 
     text="NÃO\n😢", 
     font=("Comic Sans MS", 14, "bold"),
     bg="#E70F2F",
     fg="white",
-    command=mover_botao_nao,  # Ainda permite clique manual
+    command=mover_botao_nao, 
     cursor="hand2",
     relief="solid",
     bd=3,
@@ -365,23 +280,23 @@ botao_nao = tk.Button(
     borderwidth=2
 )
 
-# Posicionar o botão NÃO inicialmente
+
 janela.update_idletasks()
 botao_nao.place(x=400, y=300)
 
-# Adicionar efeitos hover aos botões
+
 botao_sim.bind("<Enter>", on_enter_sim)
 botao_sim.bind("<Leave>", on_leave_sim)
-botao_nao.bind("<Enter>", on_enter_nao)  # Move quando mouse entra
+botao_nao.bind("<Enter>", on_enter_nao) 
 botao_nao.bind("<Leave>", on_leave_nao)
 
-# Função para reposicionar elementos quando a janela for redimensionada
+
 def on_configure(event):
     if event.widget == janela:
-        # Ajustar tamanho dos botões baseado no novo tamanho da janela
+       
         ajustar_tamanho_botoes()
         
-        # Reposicionar o botão NÃO se necessário
+     
         largura = janela.winfo_width()
         altura = janela.winfo_height()
         
@@ -389,19 +304,17 @@ def on_configure(event):
             x_atual = botao_nao.winfo_x()
             y_atual = botao_nao.winfo_y()
             
-            # Verificar se está fora dos limites
+          
             if x_atual > largura - 120 or y_atual > altura - 80 or x_atual < 0 or y_atual < 0:
-                # Reposicionar em local seguro
+               
                 novo_x = min(max(50, largura - 200), largura // 2)
                 novo_y = min(max(50, altura - 150), altura // 2)
                 botao_nao.place(x=novo_x, y=novo_y)
         except:
             pass
 
-# Vincular evento de redimensionamento
 janela.bind("<Configure>", on_configure)
 
-# Aplicar configurações iniciais
 def configuracao_inicial():
     try:
         ajustar_tamanho_botoes()
@@ -410,11 +323,12 @@ def configuracao_inicial():
     except:
         pass
 
-# Aplicar configurações após a janela ser criada
+
 janela.after(200, configuracao_inicial)
 
-# Adicionar instruções na barra de título
+
 janela.after(1000, lambda: janela.title("💕 Para Minha Namorada 💕 (F11 = Tela Cheia)"))
 
-# Inicia o loop da interface
+
 janela.mainloop()
+
